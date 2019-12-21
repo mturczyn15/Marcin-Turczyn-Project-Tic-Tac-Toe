@@ -4,8 +4,6 @@ import com.kodilla.ttt.computerStrategy.HardComputerStrategy;
 import com.kodilla.ttt.computerStrategy.RandomComputerStrategy;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -30,18 +28,15 @@ public class UserInterface {
                 }
                 tile.setOwned(true);
             }
-
         }
     }
 
     public void movePlayer(Tile tile) {
 
-            if (tile.getMoveType() == (MoveType.EMPTY)) {
-                Move.moveO(tile);
-                tile.setMoveType(MoveType.CIRCLE);
-
-            }
-
+        if (tile.getMoveType() == (MoveType.EMPTY)) {
+            Move.moveO(tile);
+            tile.setMoveType(MoveType.CIRCLE);
+        }
     }
 
     public Pane menuAndBorder() {
@@ -106,7 +101,6 @@ public class UserInterface {
         exitButton.setLayoutX(50);
         exitButton.setLayoutY(300);
         exitButton.setOnAction(e -> {
-            gameDefinition.setClosed(true);
             System.exit(0);
         });
 

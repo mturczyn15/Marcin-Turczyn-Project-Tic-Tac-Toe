@@ -5,8 +5,6 @@ import javafx.stage.Stage;
 
 public class TTTApp extends Application {
 
-
-
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -14,13 +12,11 @@ public class TTTApp extends Application {
         UserInterface userInterface = new UserInterface(gameDefinition);
         Game game = new Game(userInterface, gameDefinition);
 
-        primaryStage.setTitle("Tic Tac Toe");
+        primaryStage.setTitle(game.getTitle());
         primaryStage.setScene(game.play());
 
         primaryStage.setResizable(false);
         primaryStage.show();
-
-
     }
 
     public static void main(String[] args) {

@@ -1,13 +1,9 @@
 package com.kodilla.ttt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GameResolver {
     private Tile[][] tiles;
     private UserInterface userInterface;
     private Tile temp;
-
 
     public GameResolver(Tile[][] tiles, UserInterface userInterface) {
         this.tiles = tiles;

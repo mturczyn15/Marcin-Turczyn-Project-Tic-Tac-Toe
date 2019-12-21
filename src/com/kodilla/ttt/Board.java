@@ -1,19 +1,12 @@
 package com.kodilla.ttt;
 
-import javafx.scene.Parent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-
-
 
 public class Board extends GridPane {
 
     private final Tile[][] tiles;
 
     public Board() {
-        super();
         tiles = new Tile[3][3];
 
         for (int i = 0; i < 3; i++) {
@@ -43,10 +36,5 @@ public class Board extends GridPane {
     public Tile[][] getTiles() {
         return tiles;
     }
-
-
-
-
-
 }
 

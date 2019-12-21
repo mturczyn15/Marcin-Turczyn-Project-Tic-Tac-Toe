@@ -9,7 +9,6 @@ import javafx.scene.text.TextAlignment;
 public class Move {
 
     public static void moveX (Tile tile) {
-
         Text text = new Text();
         text.setFont(Font.font(60));
         text.setText("X");
@@ -17,7 +16,6 @@ public class Move {
     }
 
     public static void moveO (Tile tile) {
-
         Text text = new Text();
         text.setFont(Font.font(60));
         text.setText("O");

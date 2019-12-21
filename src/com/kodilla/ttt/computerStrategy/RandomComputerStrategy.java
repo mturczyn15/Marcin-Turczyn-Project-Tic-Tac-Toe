@@ -3,13 +3,11 @@ package com.kodilla.ttt.computerStrategy;
 import com.kodilla.ttt.Move;
 import com.kodilla.ttt.MoveType;
 import com.kodilla.ttt.Tile;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class RandomComputerStrategy {
-
 
     private static final Random RANDOM = new Random();
 
@@ -28,6 +26,7 @@ public class RandomComputerStrategy {
             Tile drawnTile = remainedTiles.get(r);
             Move.moveX(drawnTile);
             drawnTile.setMoveType(MoveType.CROSS);
+            drawnTile.setOwned(true);
             remainedTiles.clear();
         }
     }
