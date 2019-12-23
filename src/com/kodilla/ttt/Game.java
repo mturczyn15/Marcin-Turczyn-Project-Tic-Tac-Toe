@@ -37,22 +37,12 @@ public class Game {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (gameDefinition.getActualRound() <= gameDefinition.getMaxNumberOfRounds()) {
+
                     if (!gameDefinition.isRoundFinished()) {
 
                         if (mouseEvent.getTarget() instanceof Tile) {
                             Tile tile = (Tile) mouseEvent.getTarget();
-                            if (result == RoundResult.NONE) {
-                                userInterface.movePlayer(tile);
-                            } else {
-                                gameDefinition.setRoundFinished(true);
-
-                            }
-                            if (new RoundResolver(userInterface.getBoard().getTiles(), userInterface).findSameAs() == RoundResult.NONE) {
-                                userInterface.moveComputer(tile);
-                                if (new RoundResolver(userInterface.getBoard().getTiles(), userInterface).findSameAs() != RoundResult.NONE) {
-                                    gameDefinition.setRoundFinished(true);
-                                }
-                            } else {
+                            if (userInterface.move(tile) != RoundResult.NONE) {
                                 gameDefinition.setRoundFinished(true);
                             }
                         }

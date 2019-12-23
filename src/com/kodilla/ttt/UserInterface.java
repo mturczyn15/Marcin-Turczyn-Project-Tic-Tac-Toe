@@ -25,25 +25,26 @@ public class UserInterface {
         this.statisticsInfo = new Text();
     }
 
-    public void moveComputer(Tile tile) {
-        if (tile.getMoveType() != (MoveType.EMPTY)) {
-            if (!tile.isOwned()) {
+    public RoundResult move(Tile tile) {
+
+        if (tile.getMoveType() == MoveType.EMPTY) {
+            tile.setMoveType(MoveType.CIRCLE);
+            Move.moveO(tile);
+            RoundResult roundResult = new RoundResolver(board.getTiles(), this).findSameAs();
+            if (roundResult == RoundResult.NONE) {
+
                 if (gameDefinition.getDifficultyLevel().equals(DifficultyLevel.HARDER)) {
                     HardComputerStrategy.computerMove(board.getTiles());
                 } else {
                     RandomComputerStrategy.computerMove(board.getTiles());
                 }
-                tile.setOwned(true);
+                roundResult = new RoundResolver(board.getTiles(), this).findSameAs();
+
             }
+            return roundResult;
         }
-    }
+        return RoundResult.NONE;
 
-    public void movePlayer(Tile tile) {
-
-        if (tile.getMoveType() == (MoveType.EMPTY)) {
-            Move.moveO(tile);
-            tile.setMoveType(MoveType.CIRCLE);
-        }
     }
 
     public Pane menuAndBorder() {
