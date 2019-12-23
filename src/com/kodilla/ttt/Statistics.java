@@ -3,26 +3,17 @@ package com.kodilla.ttt;
 
 public final class Statistics {
 
-    private int actualRound = 1;
-    private int playerPoints;
-    private int enemyPoints;
+    private static int actualRound = 1;
+    private static int playerPoints;
+    private static int enemyPoints;
     private boolean hasNextMove;
-
 
     public int getPlayerPoints () {
         return playerPoints;
     }
 
-    public void setPlayerPoints (int playerPoints) {
-        this.playerPoints = playerPoints;
-    }
-
     public int getEnemyPoints () {
         return enemyPoints;
-    }
-
-    public void setEnemyPoints (int enemyPoints) {
-        this.enemyPoints = enemyPoints;
     }
 
     public void incPlayerPoints () {
@@ -39,18 +30,6 @@ public final class Statistics {
         return actualRound;
     }
 
-    public void setActualRound (int actualRound) {
-        this.actualRound = actualRound;
-    }
-
-
-
-    /*public Winner whoWins() {
-        if (wins > loses) return Winner.PLAYER;
-        if (wins < loses) return Winner.ENEMY;
-        return Winner.DRAW;
-    }*/
-
     public boolean isHasNextMove() {
         return hasNextMove;
     }
@@ -58,4 +37,26 @@ public final class Statistics {
     public void setHasNextMove(boolean hasNextMove) {
         this.hasNextMove = hasNextMove;
     }
+
+    public void updateStatistics (RoundResult result) {
+
+        incActualRounds();
+        if (result == RoundResult.COMPUTER) {
+            incEnemyPoints();
+        } if (result == RoundResult.USER) {
+            incPlayerPoints();
+        }
+    }
+    public static void resetStatistics() {
+        playerPoints = 0;
+        enemyPoints = 0;
+        actualRound = 1;
+    }
+
+    public Winner whoWins() {
+        if (playerPoints > enemyPoints) return Winner.PLAYER;
+        if (playerPoints < enemyPoints) return Winner.ENEMY;
+        return Winner.DRAW;
+    }
+
 }

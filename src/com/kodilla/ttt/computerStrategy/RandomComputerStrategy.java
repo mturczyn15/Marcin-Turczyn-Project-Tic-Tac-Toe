@@ -26,7 +26,6 @@ public class RandomComputerStrategy {
             Tile drawnTile = remainedTiles.get(r);
             Move.moveX(drawnTile);
             drawnTile.setMoveType(MoveType.CROSS);
-            drawnTile.setOwned(true);
             remainedTiles.clear();
         }
     }

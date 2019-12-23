@@ -34,7 +34,7 @@ public class Game {
 
         Scene scene = new Scene(root, 725, 425);
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            RoundResult result = RoundResult.NONE;
+            RoundResult roundResult = RoundResult.NONE;
 
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -42,14 +42,25 @@ public class Game {
                     if (!statistics.isHasNextMove()) {
                         if (mouseEvent.getTarget() instanceof Tile) {
                             Tile tile = (Tile) mouseEvent.getTarget();
-                            result = userInterface.move(tile);
+                            roundResult = userInterface.move(tile);
+                            if (roundResult != RoundResult.NONE) {
+                                statistics.setHasNextMove(true);
+                            }
                         }
                     } else {
+
+                        statistics.updateStatistics(roundResult);
+                        if (statistics.getActualRound() > gameDefinition.getMaxNumberOfRounds()) {
+                            Winner winner = statistics.whoWins();
+                            userInterface.showWinner(winner);
+                        } else {
+                            userInterface.getInfoText().setText("");
+                        }
                         userInterface.getBoard().resetBoard();
-                        if (userInterface.isStartPressed()) {userInterface.getStatisticsInfo().setText("Player: "  + statistics.getPlayerPoints() + " Enemy: " + statistics.getEnemyPoints() + " Round: " + statistics.getActualRound() + "/" + userInterface.getGameDefinition().getMaxNumberOfRounds());}
+                        if (userInterface.isStartPressed() && statistics.getActualRound() <= gameDefinition.getMaxNumberOfRounds()) {userInterface.getStatisticsInfo().setText("Player: "  + statistics.getPlayerPoints() + " Enemy: " + statistics.getEnemyPoints() + " Round: " + statistics.getActualRound() + "/" + userInterface.getGameDefinition().getMaxNumberOfRounds());}
                         statistics.setHasNextMove(false);
-                        result = RoundResult.NONE;
-                        userInterface.getInfoText().setText("");
+                        roundResult = RoundResult.NONE;
+
                     }
                 } else {
 

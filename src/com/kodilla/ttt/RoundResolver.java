@@ -48,7 +48,7 @@ public class RoundResolver {
                 }
             }
             if (count == 3) {
-                showWinner(tiles[row]);
+                showRoundWinner(tiles[row]);
                 return true;
             }
         }
@@ -73,7 +73,7 @@ public class RoundResolver {
                 for (int row = 0; row < 3; row++) {
                     tempTile[row] = tiles[row][col];
                 }
-                showWinner(tempTile);
+                showRoundWinner(tempTile);
                 return true;
             }
         }
@@ -95,7 +95,7 @@ public class RoundResolver {
                 for (row = 0, col = 0; row < 3 && col < 3; row++, col++) {
                     tempTile[row] = tiles[row][col];
                 }
-                showWinner(tempTile);
+                showRoundWinner(tempTile);
                 return true;
             }
         }
@@ -117,14 +117,14 @@ public class RoundResolver {
                 for (row = 0, col = 3 - 1; row < 3 && col >= 0; row++, col--) {
                     tempTile[row] = tiles[row][col];
                 }
-                showWinner(tempTile);
+                showRoundWinner(tempTile);
                 return true;
             }
         }
         return false;
     }
 
-    private void showWinner(Tile[] cell) {
+    private void showRoundWinner(Tile[] cell) {
         for (int i = 0; i < 3; i++) {
             if (cell[0].getMoveType().equals(MoveType.CIRCLE)) {
                 cell[i].setStyle("-fx-border-color: black; -fx-background-color: #15c6cd");
@@ -132,17 +132,11 @@ public class RoundResolver {
                 cell[i].setStyle("-fx-border-color: black; -fx-background-color: #cd6427");
             }
         }
-        userInterface.getGameDefinition().incActualRounds();
 
         if (cell[0].getMoveType().equals(MoveType.CIRCLE)) {
-            if (userInterface.isStartPressed()) { userInterface.getGameDefinition().incPlayerPoints();
-                userInterface.getInfoText().setText("You won round. Please click mouse !!!");
-            }
+            userInterface.getInfoText().setText("You won round. Please click mouse !!!");
         } else {
-            if (userInterface.isStartPressed()) { userInterface.getGameDefinition().incEnemyPoints();
-
-                userInterface.getInfoText().setText("Enemy won round. Please click mouse !!!");
-            }
+            userInterface.getInfoText().setText("Enemy won round. Please click mouse !!!");
         }
     }
 
@@ -155,7 +149,6 @@ public class RoundResolver {
             }
         }
         userInterface.getInfoText().setText("It's draw. Please click mouse !!!");
-        userInterface.getGameDefinition().incActualRounds();
         return RoundResult.DRAFT;
     }
 }

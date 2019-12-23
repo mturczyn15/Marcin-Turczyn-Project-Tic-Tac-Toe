@@ -25,26 +25,6 @@ public class UserInterface {
         this.statisticsInfo = new Text();
     }
 
-    /*public void moveComputer(Tile tile) {
-        if (tile.getMoveType() != (MoveType.EMPTY)) {
-            if (!tile.isOwned()) {
-                if (gameDefinition.getDifficultyLevel().equals(DifficultyLevel.HARDER)) {
-                    HardComputerStrategy.computerMove(board.getTiles());
-                } else {
-                    RandomComputerStrategy.computerMove(board.getTiles());
-                }
-                tile.setOwned(true);
-            }
-        }
-    }
-
-    public void movePlayer(Tile tile) {
-
-        if (tile.getMoveType() == (MoveType.EMPTY)) {
-            Move.moveO(tile);
-            tile.setMoveType(MoveType.CIRCLE);
-        }
-    }*/
 
     public RoundResult move(Tile tile) {
 
@@ -118,14 +98,16 @@ public class UserInterface {
                 gameDefinition.setDifficultyLevel(DifficultyLevel.HARDER);
                 System.out.println("Hard");
             }
-            gameDefinition.setActualRound(1);
+
             getInfoText().setText("");
-            gameDefinition.setEnemyPoints(0);
-            gameDefinition.setPlayerPoints(0);
+            Statistics.resetStatistics();
+
+
             gameDefinition.setMaxNumberOfRounds(spinner.getValue());
-            statisticsInfo.setText("Player: "  + gameDefinition.getPlayerPoints() + " Enemy: " + gameDefinition.getEnemyPoints() + " Round: " + gameDefinition.getActualRound() + "/" + gameDefinition.getMaxNumberOfRounds());
+            statisticsInfo.setText("Player: "  + 0 + " Enemy: " + 0 + " Round: " + 1 + "/" + gameDefinition.getMaxNumberOfRounds());
             System.out.println(gameDefinition.getMaxNumberOfRounds());
         });
+
 
 
         Button exitButton = new Button();
@@ -155,6 +137,14 @@ public class UserInterface {
     Text getInfoText() {
         return infoText;
     }
+
+    void showWinner(Winner winner) {
+        if (winner == Winner.DRAW) {infoText.setText("It's draw");}
+        if (winner == Winner.ENEMY) {infoText.setText("Enemy won Game");}
+        if (winner == Winner.PLAYER) {infoText.setText("You won game.");}
+    }
+
+
 
     GameDefinition getGameDefinition() {
         return gameDefinition;
