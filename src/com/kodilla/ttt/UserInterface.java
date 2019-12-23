@@ -5,17 +5,24 @@ import com.kodilla.ttt.computerStrategy.RandomComputerStrategy;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class UserInterface {
 
     private Board board;
     private GameDefinition gameDefinition;
+    private Text infoText;
+    private Text statisticsInfo;
+    private boolean startPressed;
 
     public UserInterface(GameDefinition gameDefinition) {
         this.gameDefinition = gameDefinition;
         this.board = new Board();
+        this.infoText = new Text();
+        this.statisticsInfo = new Text();
     }
 
     public void moveComputer(Tile tile) {
@@ -52,14 +59,9 @@ public class UserInterface {
         comboDifficultyLevel.setLayoutX(100);
         comboDifficultyLevel.setLayoutY(90);
 
-        Button saveScoreButton = new Button();
-        saveScoreButton.setText("Save Score");
-        saveScoreButton.setMinSize(100,30);
-        saveScoreButton.setLayoutX(100);
-        saveScoreButton.setLayoutY(260);
-        saveScoreButton.setOnAction(e -> {
+        statisticsInfo.setLayoutX(70);
+        statisticsInfo.setLayoutY(280);
 
-        });
         Text numberRoundText = new Text("Choose number of rounds:");
         numberRoundText.setLayoutY(150);
         numberRoundText.setLayoutX(100);
@@ -77,12 +79,12 @@ public class UserInterface {
                                 Integer oldValue, Integer newValue) {
             }
         });
-        gameDefinition.setMaxNumberOfRounds(spinner.getValue());
 
         Button startGameButton = new Button("Start Game");
         startGameButton.setLayoutX(100);
         startGameButton.setLayoutY(220);
         startGameButton.setOnAction(event -> {
+            startPressed = true;
             if (comboDifficultyLevel.getValue().equals("Easy")) {
                 gameDefinition.setDifficultyLevel(DifficultyLevel.EASY);
                 System.out.println("Easy");
@@ -90,7 +92,12 @@ public class UserInterface {
                 gameDefinition.setDifficultyLevel(DifficultyLevel.HARDER);
                 System.out.println("Hard");
             }
+            gameDefinition.setActualRound(1);
+            getInfoText().setText("");
+            gameDefinition.setEnemyPoints(0);
+            gameDefinition.setPlayerPoints(0);
             gameDefinition.setMaxNumberOfRounds(spinner.getValue());
+            statisticsInfo.setText("Player: "  + gameDefinition.getPlayerPoints() + " Enemy: " + gameDefinition.getEnemyPoints() + " Round: " + gameDefinition.getActualRound() + "/" + gameDefinition.getMaxNumberOfRounds());
             System.out.println(gameDefinition.getMaxNumberOfRounds());
         });
 
@@ -104,18 +111,34 @@ public class UserInterface {
             System.exit(0);
         });
 
+        infoText.setFont(Font.font(15));
+        infoText.setLayoutX(25);
+        infoText.setLayoutY(400);
+
         Pane grid = new Pane();
-
-
         grid.setPrefSize(725, 425);
-        grid.getChildren().addAll(saveScoreButton, numberRoundText, exitButton, startGameButton, comboDifficultyLevel, difficultyLevelText, spinner);
+        grid.getChildren().addAll(statisticsInfo, numberRoundText, infoText, exitButton, startGameButton, comboDifficultyLevel, difficultyLevelText, spinner);
         grid.setStyle("-fx-border-color: black; -fx-background-color: #cdc06c");
         return grid;
     }
 
-    public Board getBoard() {
+    Board getBoard() {
         return board;
     }
 
+    Text getInfoText() {
+        return infoText;
+    }
 
+    GameDefinition getGameDefinition() {
+        return gameDefinition;
+    }
+
+    Text getStatisticsInfo() {
+        return statisticsInfo;
+    }
+
+    boolean isStartPressed() {
+        return startPressed;
+    }
 }

@@ -1,16 +1,16 @@
 package com.kodilla.ttt;
 
-public class GameResolver {
+public class RoundResolver {
     private Tile[][] tiles;
     private UserInterface userInterface;
     private Tile temp;
 
-    public GameResolver(Tile[][] tiles, UserInterface userInterface) {
+    public RoundResolver(Tile[][] tiles, UserInterface userInterface) {
         this.tiles = tiles;
         this.userInterface = userInterface;
     }
 
-    public Result findSameAs() {
+    public RoundResult findSameAs() {
         if (findInARow()) {
             return checkWinner(temp);
         }
@@ -27,13 +27,12 @@ public class GameResolver {
 
     }
 
-    private static Result checkWinner (Tile tile) {
+    private static RoundResult checkWinner (Tile tile) {
         if (tile.getMoveType() == MoveType.CIRCLE) {
-            return Result.USER;
+            return RoundResult.USER;
         }
-        return Result.COMPUTER;
+        return RoundResult.COMPUTER;
     }
-
 
     private boolean findInARow() {
         int count;
@@ -133,26 +132,29 @@ public class GameResolver {
                 cell[i].setStyle("-fx-border-color: black; -fx-background-color: #cd6427");
             }
         }
+        userInterface.getGameDefinition().incActualRounds();
+
         if (cell[0].getMoveType().equals(MoveType.CIRCLE)) {
-            /*userInterface.getGameDefinition().addPointsO();
-            userInterface.getLblResultO().setText("Punkty O: " + userInterface.getGameDefinition().getPointsO());
-            userInterface.getLblState().setText("Wygrał O");*/
+            if (userInterface.isStartPressed()) { userInterface.getGameDefinition().incPlayerPoints();
+                userInterface.getInfoText().setText("You won round. Please click mouse !!!");
+            }
         } else {
-            /*userInterface.getGameDefinition().addPointsX();
-            userInterface.getLblResultX().setText("Punkty X: " + userInterface.getGameDefinition().getPointsX());
-            userInterface.getLblState().setText("Wygrał X");*/
+            if (userInterface.isStartPressed()) { userInterface.getGameDefinition().incEnemyPoints();
+                userInterface.getInfoText().setText("Enemy won round. Please click mouse !!!");
+            }
         }
     }
 
-    private Result isBoardFull() {
+    private RoundResult isBoardFull() {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 if (tiles[row][col].getMoveType().equals(MoveType.EMPTY)) {
-                    return Result.NONE;
+                    return RoundResult.NONE;
                 }
             }
         }
-        //userInterface.getLblState().setText("Remis");
-        return Result.DRAFT;
+        userInterface.getInfoText().setText("It's draw. Please click mouse !!!");
+        userInterface.getGameDefinition().incActualRounds();
+        return RoundResult.DRAFT;
     }
 }

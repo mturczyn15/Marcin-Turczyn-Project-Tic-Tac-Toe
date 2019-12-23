@@ -1,6 +1,6 @@
 package com.kodilla.ttt;
 
-public enum Result {
+public enum RoundResult {
 
     COMPUTER,
     USER,

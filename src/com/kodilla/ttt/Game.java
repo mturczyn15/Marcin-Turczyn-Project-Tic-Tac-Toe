@@ -32,32 +32,43 @@ public class Game {
 
         Scene scene = new Scene(root, 725, 425);
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            Result result = Result.NONE;
+            RoundResult result = RoundResult.NONE;
+
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (!gameDefinition.getIsRestarted()) {
-                    if (mouseEvent.getTarget() instanceof Tile) {
-                        Tile tile = (Tile) mouseEvent.getTarget();
-                        if (result == Result.NONE) {
-                            userInterface.movePlayer(tile);
-                            result = new GameResolver(userInterface.getBoard().getTiles(), userInterface).findSameAs();
-                        } else {
-                            gameDefinition.setRestarted(true);
-                        }
-                        if (result == Result.NONE) {
-                            userInterface.moveComputer(tile);
-                            result = new GameResolver(userInterface.getBoard().getTiles(), userInterface).findSameAs();
-                            if (result != Result.NONE) {
-                                gameDefinition.setRestarted(true);
+                if (gameDefinition.getActualRound() <= gameDefinition.getMaxNumberOfRounds()) {
+                    if (!gameDefinition.isRoundFinished()) {
+
+                        if (mouseEvent.getTarget() instanceof Tile) {
+                            Tile tile = (Tile) mouseEvent.getTarget();
+                            if (result == RoundResult.NONE) {
+                                userInterface.movePlayer(tile);
+                            } else {
+                                gameDefinition.setRoundFinished(true);
+
                             }
-                        } else {
-                            gameDefinition.setRestarted(true);
+                            if (new RoundResolver(userInterface.getBoard().getTiles(), userInterface).findSameAs() == RoundResult.NONE) {
+                                userInterface.moveComputer(tile);
+                                if (new RoundResolver(userInterface.getBoard().getTiles(), userInterface).findSameAs() != RoundResult.NONE) {
+                                    gameDefinition.setRoundFinished(true);
+                                }
+                            } else {
+                                gameDefinition.setRoundFinished(true);
+                            }
                         }
+                    } else {
+
+                        userInterface.getBoard().resetBoard();
+                        if (userInterface.isStartPressed()) {userInterface.getStatisticsInfo().setText("Player: "  + userInterface.getGameDefinition().getPlayerPoints() + " Enemy: " + userInterface.getGameDefinition().getEnemyPoints() + " Round: " + userInterface.getGameDefinition().getActualRound() + "/" + userInterface.getGameDefinition().getMaxNumberOfRounds());}
+                        gameDefinition.setRoundFinished(false);
+                        result = RoundResult.NONE;
+                        userInterface.getInfoText().setText("");
                     }
                 } else {
+                    gameDefinition.setRoundFinished(false);
                     userInterface.getBoard().resetBoard();
-                    gameDefinition.setRestarted(false);
-                    result = Result.NONE;
+                    userInterface.getStatisticsInfo().setText("Player: "  + gameDefinition.getPlayerPoints() + " Enemy: " + gameDefinition.getEnemyPoints() + " Round: " + (gameDefinition.getActualRound() -1) + "/" + gameDefinition.getMaxNumberOfRounds());
+                    userInterface.getInfoText().setText("Click start Game !!");
                 }
             }
         });
