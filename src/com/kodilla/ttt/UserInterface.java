@@ -25,7 +25,7 @@ public class UserInterface {
         this.statisticsInfo = new Text();
     }
 
-    public void moveComputer(Tile tile) {
+    /*public void moveComputer(Tile tile) {
         if (tile.getMoveType() != (MoveType.EMPTY)) {
             if (!tile.isOwned()) {
                 if (gameDefinition.getDifficultyLevel().equals(DifficultyLevel.HARDER)) {
@@ -44,7 +44,33 @@ public class UserInterface {
             Move.moveO(tile);
             tile.setMoveType(MoveType.CIRCLE);
         }
+    }*/
+
+    public RoundResult move(Tile tile) {
+
+        if (tile.getMoveType() == MoveType.EMPTY) {
+            tile.setMoveType(MoveType.CIRCLE);
+            Move.moveO(tile);
+            RoundResult roundResult = new RoundResolver(board.getTiles(), this).findSameAs();
+            if (roundResult == RoundResult.NONE) {
+
+                if (gameDefinition.getDifficultyLevel().equals(DifficultyLevel.HARDER)) {
+                    HardComputerStrategy.computerMove(board.getTiles());
+                } else {
+                    RandomComputerStrategy.computerMove(board.getTiles());
+                }
+                roundResult = new RoundResolver(board.getTiles(), this).findSameAs();
+            }
+            return roundResult;
+        }
+        return RoundResult.NONE;
+
     }
+
+
+
+
+
 
     public Pane menuAndBorder() {
 

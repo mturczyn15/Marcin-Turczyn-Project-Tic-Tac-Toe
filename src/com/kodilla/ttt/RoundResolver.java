@@ -140,6 +140,7 @@ public class RoundResolver {
             }
         } else {
             if (userInterface.isStartPressed()) { userInterface.getGameDefinition().incEnemyPoints();
+
                 userInterface.getInfoText().setText("Enemy won round. Please click mouse !!!");
             }
         }

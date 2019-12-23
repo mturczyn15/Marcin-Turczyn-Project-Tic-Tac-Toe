@@ -11,10 +11,12 @@ public class Game {
     private static final String TITLE = "Tic Tac Toe";
     private UserInterface userInterface;
     private GameDefinition gameDefinition;
+    private Statistics statistics;
 
     public Game(UserInterface userInterface, GameDefinition gameDefinition) {
         this.userInterface = userInterface;
         this.gameDefinition = gameDefinition;
+        this.statistics = new Statistics();
     }
 
     public String getTitle () {
@@ -36,39 +38,25 @@ public class Game {
 
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (gameDefinition.getActualRound() <= gameDefinition.getMaxNumberOfRounds()) {
-                    if (!gameDefinition.isRoundFinished()) {
-
+                if (statistics.getActualRound() <= gameDefinition.getMaxNumberOfRounds()) {
+                    if (!statistics.isHasNextMove()) {
                         if (mouseEvent.getTarget() instanceof Tile) {
                             Tile tile = (Tile) mouseEvent.getTarget();
-                            if (result == RoundResult.NONE) {
-                                userInterface.movePlayer(tile);
-                            } else {
-                                gameDefinition.setRoundFinished(true);
-
-                            }
-                            if (new RoundResolver(userInterface.getBoard().getTiles(), userInterface).findSameAs() == RoundResult.NONE) {
-                                userInterface.moveComputer(tile);
-                                if (new RoundResolver(userInterface.getBoard().getTiles(), userInterface).findSameAs() != RoundResult.NONE) {
-                                    gameDefinition.setRoundFinished(true);
-                                }
-                            } else {
-                                gameDefinition.setRoundFinished(true);
-                            }
+                            result = userInterface.move(tile);
                         }
                     } else {
-
                         userInterface.getBoard().resetBoard();
-                        if (userInterface.isStartPressed()) {userInterface.getStatisticsInfo().setText("Player: "  + userInterface.getGameDefinition().getPlayerPoints() + " Enemy: " + userInterface.getGameDefinition().getEnemyPoints() + " Round: " + userInterface.getGameDefinition().getActualRound() + "/" + userInterface.getGameDefinition().getMaxNumberOfRounds());}
-                        gameDefinition.setRoundFinished(false);
+                        if (userInterface.isStartPressed()) {userInterface.getStatisticsInfo().setText("Player: "  + statistics.getPlayerPoints() + " Enemy: " + statistics.getEnemyPoints() + " Round: " + statistics.getActualRound() + "/" + userInterface.getGameDefinition().getMaxNumberOfRounds());}
+                        statistics.setHasNextMove(false);
                         result = RoundResult.NONE;
                         userInterface.getInfoText().setText("");
                     }
                 } else {
-                    gameDefinition.setRoundFinished(false);
+
                     userInterface.getBoard().resetBoard();
-                    userInterface.getStatisticsInfo().setText("Player: "  + gameDefinition.getPlayerPoints() + " Enemy: " + gameDefinition.getEnemyPoints() + " Round: " + (gameDefinition.getActualRound() -1) + "/" + gameDefinition.getMaxNumberOfRounds());
+                    userInterface.getStatisticsInfo().setText("Player: "  + statistics.getPlayerPoints() + " Enemy: " + statistics.getEnemyPoints() + " Round: " + (statistics.getActualRound() -1) + "/" + gameDefinition.getMaxNumberOfRounds());
                     userInterface.getInfoText().setText("Click start Game !!");
+                    statistics = new Statistics();
                 }
             }
         });
