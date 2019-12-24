@@ -1,5 +1,6 @@
 package com.kodilla.ttt;
 
+import com.kodilla.ttt.Round.RoundResult;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -38,8 +39,9 @@ public class Game {
 
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (statistics.getActualRound() <= gameDefinition.getMaxNumberOfRounds()) {
-                    if (!statistics.isHasNextMove()) {
+
+                if (userInterface.isStartPressed() && statistics.getActualRound() <= gameDefinition.getMaxNumberOfRounds()) {
+                    if (!statistics.getHasNextMove()) {
                         if (mouseEvent.getTarget() instanceof Tile) {
                             Tile tile = (Tile) mouseEvent.getTarget();
                             roundResult = userInterface.move(tile);
@@ -48,24 +50,20 @@ public class Game {
                             }
                         }
                     } else {
-
                         statistics.updateStatistics(roundResult);
                         if (statistics.getActualRound() > gameDefinition.getMaxNumberOfRounds()) {
                             Winner winner = statistics.whoWins();
                             userInterface.showWinner(winner);
+                            userInterface.getStatisticsInfo().setText("Player: "  + statistics.getPlayerPoints() + " Enemy: " + statistics.getEnemyPoints() + " Round: " + (statistics.getActualRound() - 1) + "/" + userInterface.getGameDefinition().getMaxNumberOfRounds());
                         } else {
                             userInterface.getInfoText().setText("");
+                            userInterface.getStatisticsInfo().setText("Player: "  + statistics.getPlayerPoints() + " Enemy: " + statistics.getEnemyPoints() + " Round: " + statistics.getActualRound() + "/" + userInterface.getGameDefinition().getMaxNumberOfRounds());
                         }
                         userInterface.getBoard().resetBoard();
-                        if (userInterface.isStartPressed() && statistics.getActualRound() <= gameDefinition.getMaxNumberOfRounds()) {userInterface.getStatisticsInfo().setText("Player: "  + statistics.getPlayerPoints() + " Enemy: " + statistics.getEnemyPoints() + " Round: " + statistics.getActualRound() + "/" + userInterface.getGameDefinition().getMaxNumberOfRounds());}
                         statistics.setHasNextMove(false);
                         roundResult = RoundResult.NONE;
-
                     }
                 } else {
-
-                    userInterface.getBoard().resetBoard();
-                    userInterface.getStatisticsInfo().setText("Player: "  + statistics.getPlayerPoints() + " Enemy: " + statistics.getEnemyPoints() + " Round: " + (statistics.getActualRound() -1) + "/" + gameDefinition.getMaxNumberOfRounds());
                     userInterface.getInfoText().setText("Click start Game !!");
                     statistics = new Statistics();
                 }

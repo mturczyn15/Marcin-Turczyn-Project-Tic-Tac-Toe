@@ -1,4 +1,4 @@
-package com.kodilla.ttt;
+package com.kodilla.ttt.Round;
 
 public enum RoundResult {
 

@@ -1,4 +1,8 @@
-package com.kodilla.ttt;
+package com.kodilla.ttt.Round;
+
+import com.kodilla.ttt.MoveType;
+import com.kodilla.ttt.Tile;
+import com.kodilla.ttt.UserInterface;
 
 public class RoundResolver {
     private Tile[][] tiles;

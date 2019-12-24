@@ -1,6 +1,8 @@
 
 package com.kodilla.ttt;
 
+import com.kodilla.ttt.Round.RoundResult;
+
 public final class Statistics {
 
     private static int actualRound = 1;
@@ -30,7 +32,7 @@ public final class Statistics {
         return actualRound;
     }
 
-    public boolean isHasNextMove() {
+    public boolean getHasNextMove() {
         return hasNextMove;
     }
 
@@ -43,7 +45,7 @@ public final class Statistics {
         incActualRounds();
         if (result == RoundResult.COMPUTER) {
             incEnemyPoints();
-        } if (result == RoundResult.USER) {
+        } else if (result == RoundResult.USER) {
             incPlayerPoints();
         }
     }

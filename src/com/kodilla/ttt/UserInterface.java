@@ -1,5 +1,7 @@
 package com.kodilla.ttt;
 
+import com.kodilla.ttt.Round.RoundResolver;
+import com.kodilla.ttt.Round.RoundResult;
 import com.kodilla.ttt.computerStrategy.HardComputerStrategy;
 import com.kodilla.ttt.computerStrategy.RandomComputerStrategy;
 import javafx.beans.value.ChangeListener;
@@ -44,13 +46,7 @@ public class UserInterface {
             return roundResult;
         }
         return RoundResult.NONE;
-
     }
-
-
-
-
-
 
     public Pane menuAndBorder() {
 
@@ -101,14 +97,12 @@ public class UserInterface {
 
             getInfoText().setText("");
             Statistics.resetStatistics();
-
+            getBoard().resetBoard();
 
             gameDefinition.setMaxNumberOfRounds(spinner.getValue());
             statisticsInfo.setText("Player: "  + 0 + " Enemy: " + 0 + " Round: " + 1 + "/" + gameDefinition.getMaxNumberOfRounds());
             System.out.println(gameDefinition.getMaxNumberOfRounds());
         });
-
-
 
         Button exitButton = new Button();
         exitButton.setText("Exit Game");
@@ -122,7 +116,7 @@ public class UserInterface {
         infoText.setFont(Font.font(15));
         infoText.setLayoutX(25);
         infoText.setLayoutY(400);
-
+        showInitialInformation();
         Pane grid = new Pane();
         grid.setPrefSize(725, 425);
         grid.getChildren().addAll(statisticsInfo, numberRoundText, infoText, exitButton, startGameButton, comboDifficultyLevel, difficultyLevelText, spinner);
@@ -130,31 +124,33 @@ public class UserInterface {
         return grid;
     }
 
-    Board getBoard() {
+    public Board getBoard() {
         return board;
     }
 
-    Text getInfoText() {
+    public Text getInfoText() {
         return infoText;
     }
 
-    void showWinner(Winner winner) {
-        if (winner == Winner.DRAW) {infoText.setText("It's draw");}
-        if (winner == Winner.ENEMY) {infoText.setText("Enemy won Game");}
-        if (winner == Winner.PLAYER) {infoText.setText("You won game.");}
+    public void showWinner(Winner winner) {
+        if (winner == Winner.DRAW) {infoText.setText("It's draw. Click mouse");}
+        if (winner == Winner.ENEMY) {infoText.setText("Enemy won Game. Click mouse");}
+        if (winner == Winner.PLAYER) {infoText.setText("You won game. Click mouse");}
     }
 
+   public void showInitialInformation() {
+        infoText.setText("Choose number of rounds, \n difficulty level and click Start Game");
+    }
 
-
-    GameDefinition getGameDefinition() {
+    public GameDefinition getGameDefinition() {
         return gameDefinition;
     }
 
-    Text getStatisticsInfo() {
+    public Text getStatisticsInfo() {
         return statisticsInfo;
     }
 
-    boolean isStartPressed() {
+   public boolean isStartPressed() {
         return startPressed;
     }
 }
