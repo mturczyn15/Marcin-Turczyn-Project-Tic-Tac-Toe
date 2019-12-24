@@ -49,6 +49,7 @@ public final class Statistics {
             incPlayerPoints();
         }
     }
+
     public static void resetStatistics() {
         playerPoints = 0;
         enemyPoints = 0;
@@ -60,5 +61,4 @@ public final class Statistics {
         if (playerPoints < enemyPoints) return Winner.ENEMY;
         return Winner.DRAW;
     }
-
 }

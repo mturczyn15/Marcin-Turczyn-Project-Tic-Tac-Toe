@@ -86,7 +86,7 @@ public class RoundResolver {
 
     private boolean findDiagonallyFromLeftToRight() {
         int count = 0;
-        Tile temp = tiles[0][0];
+        temp = tiles[0][0];
         for (int row = 0, col = 0; row < 3 && col < 3; row++, col++) {
             if (!temp.getMoveType().equals(MoveType.EMPTY)) {
                 if (temp.getMoveType().equals(tiles[row][col].getMoveType())) {
@@ -108,7 +108,7 @@ public class RoundResolver {
 
     private boolean findDiagonallyFromRightToLeft() {
         int count = 0;
-        Tile temp = tiles[0][2];
+        temp = tiles[0][2];
         for (int row = 0, col = 3 - 1; row < 3 && col >= 0; row++, col--) {
             if (!temp.getMoveType().equals(MoveType.EMPTY)) {
                 if (temp.getMoveType().equals(tiles[row][col].getMoveType())) {

@@ -2,7 +2,6 @@ package com.kodilla.ttt;
 
 public class GameDefinition {
 
-
     private DifficultyLevel difficultyLevel = DifficultyLevel.EASY;
     private int maxNumberOfRounds = 5;
 

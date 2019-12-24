@@ -27,7 +27,6 @@ public class UserInterface {
         this.statisticsInfo = new Text();
     }
 
-
     public RoundResult move(Tile tile) {
 
         if (tile.getMoveType() == MoveType.EMPTY) {
