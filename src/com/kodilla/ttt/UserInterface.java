@@ -95,7 +95,6 @@ public class UserInterface {
             }
 
             getInfoText().setText("");
-            Statistics.resetStatistics();
             getBoard().resetBoard();
 
             gameDefinition.setMaxNumberOfRounds(spinner.getValue());
@@ -149,7 +148,13 @@ public class UserInterface {
         return statisticsInfo;
     }
 
-   public boolean isStartPressed() {
+    public boolean isStartPressed() {
         return startPressed;
     }
+
+    public void setStartPressed (boolean startPressed) {
+        this.startPressed = startPressed;
+    }
+
+
 }

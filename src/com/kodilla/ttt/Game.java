@@ -54,6 +54,7 @@ public class Game {
                         if (statistics.getActualRound() > gameDefinition.getMaxNumberOfRounds()) {
                             Winner winner = statistics.whoWins();
                             userInterface.showWinner(winner);
+                            userInterface.setStartPressed(false);
                             userInterface.getStatisticsInfo().setText("Player: "  + statistics.getPlayerPoints() + " Enemy: " + statistics.getEnemyPoints() + " Round: " + (statistics.getActualRound() - 1) + "/" + userInterface.getGameDefinition().getMaxNumberOfRounds());
                         } else {
                             userInterface.getInfoText().setText("");
@@ -64,7 +65,7 @@ public class Game {
                         roundResult = RoundResult.NONE;
                     }
                 } else {
-                    userInterface.getInfoText().setText("Click start Game !!");
+                    userInterface.showInitialInformation();
                     statistics = new Statistics();
                 }
             }
